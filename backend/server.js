@@ -20,6 +20,11 @@ connectDB();
 
 // Middleware để sử dụng các routes của sản phẩm
 app.use('/products', productRoutes);
+const cors = require('cors');
+app.use(cors({
+  origin: '*',  // Cho phép tất cả các domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Cho phép các phương thức này
+}));
 
 // Middleware cho route xác thực (hiện đang bị comment, chưa sử dụng)
 // app.use('/auth', authRoutes);
