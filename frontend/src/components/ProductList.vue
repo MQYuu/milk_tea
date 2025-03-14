@@ -3,7 +3,11 @@
       <h2>Danh sách sản phẩm</h2>
       <ul>
         <li v-for="product in products" :key="product.id">
-          {{ product.name }} - {{ product.price }}$
+          <div>
+            <h3>{{ product.name }} - {{ product.price }}$</h3>
+            <p>{{ product.description }}</p>
+            <img :src="product.imageUrl" alt="Product Image" width="100" />
+          </div>
         </li>
       </ul>
     </div>

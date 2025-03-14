@@ -43,7 +43,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 // Lấy sản phẩm theo ID
 const getProductByID = asyncHandler(async (req, res) =>{
-    const product = await Prodcuct.findById(req.paramss.id);
+    const product = await Product.findById(req.params.id);
     if(product){
         res.json(product);
     }else{
@@ -66,13 +66,16 @@ const updateProduct = asyncHandler(async (req, res) =>{
 });
 
 // Xóa sản phẩm
-const deleteProduct = asyncHandler(async (req, res) =>{
+const deleteProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
-    if(product){
-        await product.remove();
-        res.json({message: "Sản phẩm đã được xóa"});
+    if (product) {
+        await Product.deleteOne({ _id: req.params.id });  // Sử dụng deleteOne thay vì product.remove
+        res.json({ message: "Sản phẩm đã được xóa" });
+    } else {
+        res.status(404).json({ message: "Không tìm thấy sản phẩm" });
     }
 });
+
 
 
 module.exports = {
