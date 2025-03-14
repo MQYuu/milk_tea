@@ -1,42 +1,84 @@
 const asyncHandler = require('express-async-handler');
 const Product = require('../models/Product');
 
+
 // Get all products
 const getProduct = asyncHandler(async (req, res) => {
     const products = await Product.find();
     res.status(200).json(products);
 })
 
-// Create product
+// Tạo sản phẩm mới
 const createProduct = asyncHandler(async (req, res) => {
-    const products = req.body;
+    // Lấy dữ liệu từ body yêu cầu
+    const { name, price, description, imageUrL } = req.body;
 
-    // Kiểm tra xem có sản phẩm hay không
-    if (!Array.isArray(products) || products.length === 0) {
-        return res.status(400).json({ message: "Vui lòng nhập ít nhất 1 sản phẩm!" });
+    try {
+        // Tạo sản phẩm mới
+        const product = new Product({
+            name,
+            price,
+            description,
+            imageUrL
+        });
+
+        // Lưu sản phẩm vào cơ sở dữ liệu
+        const createdProduct = await product.save();
+
+        // Trả về kết quả thành công
+        res.status(201).json({
+            message: 'Sản phẩm đã được tạo thành công!',
+            product: createdProduct
+        });
+    } catch (error) {
+        // Xử lý lỗi và hiển thị chi tiết lỗi
+        console.error(error);
+        res.status(500).json({
+            message: 'Đã có lỗi xảy ra khi tạo sản phẩm',
+            error: error.message
+        });
     }
-
-    // Kiểm tra dữ liệu hợp lệ
-    const invalidProducts = products.filter(product => 
-        !product.name || !product.price || !product.description || !product.image ||
-        typeof product.price !== 'number' || product.price <= 0
-    );
-
-    // Nếu có sản phẩm không hợp lệ
-    if (invalidProducts.length > 0) {
-        return res.status(400).json({ message: "Có sản phẩm thiếu thông tin hoặc giá không hợp lệ, vui lòng kiểm tra lại!" });
-    }
-
-    // Thêm tất cả sản phẩm vào DB
-    const createdProducts = await Product.insertMany(products);
-
-    res.status(201).json({
-        message: `Đã thêm ${createdProducts.length} sản phẩm thành công!`,
-        products: createdProducts
-    });
+    
 });
+
+// Lấy sản phẩm theo ID
+const getProductByID = asyncHandler(async (req, res) =>{
+    const product = await Prodcuct.findById(req.paramss.id);
+    if(product){
+        res.json(product);
+    }else{
+        res.status(404).json({message: "Không tìm thấy sản phẩm"});
+    }
+})
+
+// Cập nhật thông tin sản phẩm
+const updateProduct = asyncHandler(async (req, res) =>{
+    const {name, price, description, imageUrL} = req.body;
+    const product = await Product.findById(req.params.id);
+    if(product){
+        product.name = name;
+        product.price = price;
+        product.description = description;
+        product.imageUrL = imageUrL;
+        const updateProduct = await product.save();
+        res.json(updateProduct);
+    }
+});
+
+// Xóa sản phẩm
+const deleteProduct = asyncHandler(async (req, res) =>{
+    const product = await Product.findById(req.params.id);
+    if(product){
+        await product.remove();
+        res.json({message: "Sản phẩm đã được xóa"});
+    }
+});
+
 
 module.exports = {
     getProduct,
     createProduct,
+    getProductByID,
+    updateProduct,
+    deleteProduct
 };

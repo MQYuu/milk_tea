@@ -1,6 +1,8 @@
 // Import thư viện Express để tạo server
 const express = require('express'); 
 const app = express(); 
+// Middleware để phân tích JSON từ body yêu cầu
+app.use(express.json());
 
 // Load biến môi trường từ file .env
 require('dotenv').config(); 
@@ -14,6 +16,7 @@ const connectDB = require('./config/dbConnect');
 
 // Gọi hàm kết nối tới database
 connectDB(); 
+
 
 // Middleware để sử dụng các routes của sản phẩm
 app.use('/products', productRoutes);
