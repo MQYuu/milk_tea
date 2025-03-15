@@ -9,27 +9,57 @@ const getProduct = asyncHandler(async (req, res) => {
 })
 
 // Tạo sản phẩm mới
+// Tạo sản phẩm mới hoặc mảng sản phẩm
 const createProduct = asyncHandler(async (req, res) => {
     // Lấy dữ liệu từ body yêu cầu
-    const { name, price, description, imageUrl } = req.body;
+    const products = req.body; // có thể là 1 sản phẩm hoặc 1 mảng sản phẩm
 
     try {
-        // Tạo sản phẩm mới
-        const product = new Product({
-            name,
-            price,
-            description,
-            imageUrl
-        });
+        // Kiểm tra nếu body chứa mảng sản phẩm
+        if (Array.isArray(products)) {
+            // Nếu là mảng, tạo nhiều sản phẩm
+            const createdProducts = [];
+            for (let productData of products) {
+                const { name, price, description, imageUrl } = productData;
 
-        // Lưu sản phẩm vào cơ sở dữ liệu
-        const createdProduct = await product.save();
+                const product = new Product({
+                    name,
+                    price,
+                    description,
+                    imageUrl
+                });
 
-        // Trả về kết quả thành công
-        res.status(201).json({
-            message: 'Sản phẩm đã được tạo thành công!',
-            product: createdProduct
-        });
+                const createdProduct = await product.save();
+                createdProducts.push(createdProduct);
+            }
+
+            // Trả về kết quả khi tạo nhiều sản phẩm
+            res.status(201).json({
+                message: 'Các sản phẩm đã được tạo thành công!',
+                products: createdProducts
+            });
+
+        } else {
+            // Nếu chỉ là 1 sản phẩm, tạo sản phẩm bình thường
+            const { name, price, description, imageUrl } = products;
+
+            const product = new Product({
+                name,
+                price,
+                description,
+                imageUrl
+            });
+
+            // Lưu sản phẩm vào cơ sở dữ liệu
+            const createdProduct = await product.save();
+
+            // Trả về kết quả thành công
+            res.status(201).json({
+                message: 'Sản phẩm đã được tạo thành công!',
+                product: createdProduct
+            });
+        }
+
     } catch (error) {
         // Xử lý lỗi và hiển thị chi tiết lỗi
         console.error(error);
@@ -38,8 +68,8 @@ const createProduct = asyncHandler(async (req, res) => {
             error: error.message
         });
     }
-    
 });
+
 
 // Lấy sản phẩm theo ID
 const getProductByID = asyncHandler(async (req, res) =>{
