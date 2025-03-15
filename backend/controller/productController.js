@@ -11,7 +11,7 @@ const getProduct = asyncHandler(async (req, res) => {
 // Tạo sản phẩm mới
 const createProduct = asyncHandler(async (req, res) => {
     // Lấy dữ liệu từ body yêu cầu
-    const { name, price, description, imageUrL } = req.body;
+    const { name, price, description, imageUrl } = req.body;
 
     try {
         // Tạo sản phẩm mới
@@ -19,7 +19,7 @@ const createProduct = asyncHandler(async (req, res) => {
             name,
             price,
             description,
-            imageUrL
+            imageUrl
         });
 
         // Lưu sản phẩm vào cơ sở dữ liệu
@@ -53,13 +53,13 @@ const getProductByID = asyncHandler(async (req, res) =>{
 
 // Cập nhật thông tin sản phẩm
 const updateProduct = asyncHandler(async (req, res) =>{
-    const {name, price, description, imageUrL} = req.body;
+    const {name, price, description, imageUrl} = req.body;
     const product = await Product.findById(req.params.id);
     if(product){
         product.name = name;
         product.price = price;
         product.description = description;
-        product.imageUrL = imageUrL;
+        product.imageUrl = imageUrl;
         const updateProduct = await product.save();
         res.json(updateProduct);
     }

@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
         description: { type: String,
         required: [true, "Vui lòng thêm mô tả sản phẩm!"]
         },
-        imageUrL: { type: String,
+        imageUrl: { type: String,
         required: [true, "Vui lòng thêm ảnh sản phẩm!"]
         },
     },
