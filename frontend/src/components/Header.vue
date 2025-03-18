@@ -18,23 +18,29 @@
   header {
     text-align: center;
     background-color: #e67e22;
-    padding: 1rem;
+    color: white;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60px; /* Đảm bảo header có chiều cao giống footer */
   }
   
   header h1 {
-    color: white;
-    font-size: 2rem;
+    font-size: 1.5rem; /* Giảm kích thước để phù hợp với footer */
+    margin: 0; /* Đảm bảo không có khoảng cách trên và dưới */
   }
   
   nav {
-    margin-top: 1rem;
+    margin-top: 5px; /* Tạo khoảng cách nhỏ giữa tiêu đề và menu */
   }
   
   nav a {
     color: white;
     margin: 0 15px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem; /* Đảm bảo kích thước font tương tự footer */
   }
   
   nav a:hover {
