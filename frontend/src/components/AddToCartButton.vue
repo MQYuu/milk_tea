@@ -53,7 +53,6 @@ const addToCart = async () => {
   }
 };
 
-
 </script>
 
 <style scoped>
