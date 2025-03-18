@@ -52,12 +52,26 @@ const handleLogin = async () => {
   try {
     errorMessage.value = '';
     const response = await loginUser(user.value.email, user.value.password);
-    
+
     if (response.token) {
-      localStorage.setItem("userToken", response.token);
-      localStorage.setItem("userInfo", JSON.stringify({ email: user.value.email }));
-      userInfo.value = { email: user.value.email };
+      // Lưu thông tin đăng nhập, bao gồm userId
+      const userData = { 
+        email: user.value.email, 
+        userId: response._id  // Sử dụng response._id thay vì response.userId
+      };
+
+      // Lưu vào localStorage
+      localStorage.setItem('userToken', response.token);
+      localStorage.setItem('userInfo', JSON.stringify(userData));
+
+      // Kiểm tra đã lưu đúng chưa
+      console.log('User info saved:', userData); // Kiểm tra dữ liệu lưu trong localStorage
+
+      userInfo.value = userData;
       isLoggedIn.value = true;
+
+      // Điều hướng đến giỏ hàng
+      router.push('/cart');
     } else {
       throw new Error("Đăng nhập thất bại");
     }

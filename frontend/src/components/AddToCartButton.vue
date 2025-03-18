@@ -4,6 +4,7 @@
 
 <script setup>
 import { defineProps, defineEmits } from 'vue'
+import cartApi from '../api/carts' 
 
 // Nhận thông tin sản phẩm từ ProductPage
 const props = defineProps({
@@ -13,31 +14,32 @@ const props = defineProps({
 // Emit sự kiện để cập nhật giỏ hàng từ component cha
 const emit = defineEmits(['update-cart'])
 
-const addToCart = () => {
-  const product = { ...props.product } // Tạo bản sao để tránh thay đổi trực tiếp props
+const addToCart = async () => {
+  const product = { ...props.product }; // Tạo bản sao để tránh thay đổi trực tiếp props
 
-  // Lấy giỏ hàng từ localStorage
-  let cart = JSON.parse(localStorage.getItem('cart')) || []
+  // Lấy thông tin người dùng từ localStorage
+  const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Lấy thông tin từ localStorage
 
-  // Kiểm tra nếu sản phẩm đã có trong giỏ hàng thì tăng số lượng lên 1
-  const existingProduct = cart.find(item => item.id === product.id)
-  if (existingProduct) {
-    existingProduct.quantity += 1
-  } else {
-    // Nếu sản phẩm chưa có, thêm vào giỏ hàng với số lượng 1
-    product.quantity = 1
-    cart.push(product)
+  if (!userInfo || !userInfo.userId) {
+    alert('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+    return;
   }
 
-  // Lưu giỏ hàng vào localStorage
-  localStorage.setItem('cart', JSON.stringify(cart))
+  try {
+    // Gửi yêu cầu thêm sản phẩm vào giỏ hàng
+    const updatedCart = await cartApi.addToCart(userInfo.userId, product);
 
-  // Gửi sự kiện cập nhật giỏ hàng cho component cha
-  emit('update-cart', cart)
+    // Gửi sự kiện cập nhật giỏ hàng cho component cha
+    emit('update-cart', updatedCart.items);
 
-  // Thông báo cho người dùng
-  alert(`${product.name} đã được thêm vào giỏ hàng!`)
-}
+    // Thông báo cho người dùng
+    alert(`${product.name} đã được thêm vào giỏ hàng!`);
+  } catch (error) {
+    alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+    console.error(error);
+  }
+};
+
 </script>
 
 <style scoped>
