@@ -7,8 +7,8 @@ import Register from '../pages/Register.vue'
 import Contact from '../pages/Contact.vue'
 
 const routes = [
-  { path: '/', component: Home },
-  {path: '/products', component: Products},
+  {path: '/', component: Home },
+  {path: '/listProducts', component: Products},
   {path: '/cart', component: Cart},
   {path: '/login', component: Login},
   {path: '/register', component: Register},

@@ -5,7 +5,7 @@
       <h1>Welcome to the Milk Tea Shop</h1>
       <nav>
         <router-link to="/">Trang chủ</router-link>
-        <router-link to="/products">Sản phẩm</router-link>
+        <router-link to="/listProducts">Sản phẩm</router-link>
         <router-link to="/cart">Giỏ hàng</router-link>
         <router-link to="/login">Đăng nhập</router-link>
         <router-link to="/contact">Liên hệ</router-link>

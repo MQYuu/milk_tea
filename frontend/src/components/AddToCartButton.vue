@@ -17,6 +17,19 @@ const emit = defineEmits(['update-cart'])
 const addToCart = async () => {
   const product = { ...props.product }; // Tạo bản sao để tránh thay đổi trực tiếp props
 
+  // Kiểm tra xem product có _id hợp lệ hay không
+  if (!product._id) {
+    alert('Sản phẩm không hợp lệ');
+    console.error('Product missing _id:', product);  // In ra để kiểm tra dữ liệu sản phẩm
+    return;
+  }
+
+  // Chuyển _id thành productId nếu backend yêu cầu productId
+  const productForCart = {
+    ...product,
+    productId: product._id  // Đổi _id thành productId
+  };
+
   // Lấy thông tin người dùng từ localStorage
   const userInfo = JSON.parse(localStorage.getItem('userInfo')); // Lấy thông tin từ localStorage
 
@@ -26,8 +39,8 @@ const addToCart = async () => {
   }
 
   try {
-    // Gửi yêu cầu thêm sản phẩm vào giỏ hàng
-    const updatedCart = await cartApi.addToCart(userInfo.userId, product);
+    // Gửi yêu cầu thêm sản phẩm vào giỏ hàng với productId thay vì _id
+    const updatedCart = await cartApi.addToCart(userInfo.userId, productForCart);
 
     // Gửi sự kiện cập nhật giỏ hàng cho component cha
     emit('update-cart', updatedCart.items);
@@ -39,6 +52,7 @@ const addToCart = async () => {
     console.error(error);
   }
 };
+
 
 </script>
 

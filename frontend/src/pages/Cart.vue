@@ -30,19 +30,36 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useUserStore } from '../stores/userStore'
 import cartApi from '../api/carts'
 
 const userStore = useUserStore()
 const cart = ref([])
 
+// Hàm tự động tải lại trang khi trạng thái người dùng thay đổi
+const reloadPage = () => {
+  // Gọi lại trang sau khi thay đổi trạng thái đăng nhập
+  window.location.reload()
+}
+
 onMounted(async () => {
+  // Kiểm tra nếu người dùng đã đăng nhập khi trang được tải
   if (userStore.userId) {
     const response = await cartApi.getCart(userStore.userId)
     cart.value = response.items || []
-    console.log(JSON.stringify(cart.value, null, 2))
+    console.log('Giỏ hàng:', JSON.stringify(cart.value, null, 2))
+  }
+})
 
+// Theo dõi sự thay đổi của userStore.userId
+watch(() => userStore.userId, (newUserId) => {
+  if (newUserId) {
+    // Khi người dùng đăng nhập, reload lại trang để cập nhật giỏ hàng
+    reloadPage()
+  } else {
+    // Khi người dùng đăng xuất, reload lại trang để làm mới
+    reloadPage()
   }
 })
 
@@ -57,7 +74,6 @@ const totalPrice = computed(() => {
 
 // Hàm format giá trị tiền tệ
 const formatCurrency = (amount) => {
-  // Kiểm tra nếu amount là số và có giá trị hợp lệ
   if (typeof amount === 'number' && !isNaN(amount)) {
     return amount.toLocaleString('vi-VN') + ' VND'
   }
