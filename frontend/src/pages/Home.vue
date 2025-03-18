@@ -14,7 +14,7 @@
               <div class="product-info">
                 <h3 class="product-name">{{ product.name }}</h3>
                 <p class="product-description">{{ product.description }}</p>
-                <p class="product-price">{{ formatPrice(product.price) }}</p>
+                <p class="product-price">{{ formatPrice(product.price) }} VND</p>
                 <AddToCartButton :product="product" />
               </div>
             </div>
@@ -32,11 +32,10 @@
   const topProducts = ref([])
 
   const formatPrice = (price) => {
-  const numberPrice = Number(price) // Chuyển về kiểu số
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(numberPrice);
-};
+    const numberPrice = Number(price) * 1.0; // Nhân với 1.0 để đảm bảo kiểu số
+    return new Intl.NumberFormat("vi-VN").format(numberPrice);
+  };
 
-  
   onMounted(async () => {
     try {
       const response = await fetch('/api/products')

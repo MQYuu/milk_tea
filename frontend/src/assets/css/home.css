@@ -68,6 +68,12 @@
     object-fit: cover;
     border-radius: 10px;
   }
+  .product-price {
+    font-size: 18px;
+    color: #f44336; /* Màu đỏ đặc trưng */
+    font-weight: bold;
+    margin-top: 10px;
+  }
   
   @media (max-width: 1024px) {
     .product-list {

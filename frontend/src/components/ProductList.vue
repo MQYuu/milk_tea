@@ -8,7 +8,7 @@
           <div class="product-info">
             <h3 class="product-name">{{ product.name }}</h3>
             <p class="product-description">{{ product.description }}</p>
-            <p class="product-price">{{ product.price }}$</p>
+            <p class="product-price">{{ formatPrice(product.price) }} VND</p>
             <!-- Truyền thông tin sản phẩm vào AddToCartButton -->
             <AddToCartButton :product="product" />
           </div>
@@ -21,6 +21,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import AddToCartButton from './AddToCartButton.vue'
+
+const formatPrice = (price) => {
+    const numberPrice = Number(price) * 1.0; // Nhân với 1.0 để đảm bảo kiểu số
+    return new Intl.NumberFormat("vi-VN").format(numberPrice);
+  };
 
 const products = ref([])
 

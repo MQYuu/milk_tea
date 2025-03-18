@@ -1,0 +1,128 @@
+[
+    {
+      "name": "Trà sữa trân châu",
+      "price": 35000,
+      "description": "Trà sữa thơm ngon kết hợp với trân châu dẻo dai, ngọt ngào.",
+      "imageUrl": "https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/kinh-nghiem-meo-hay/n%E1%BA%A5u%20%C4%83n/cach-lam-tran-chau-tra-sua_1.jpg"
+    },
+    {
+      "name": "Trà sữa matcha",
+      "price": 38000,
+      "description": "Trà sữa kết hợp với bột matcha thơm mát, đậm đà hương vị.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/04/CookRecipe/GalleryStep/thanh-pham-1340.jpg"
+    },
+    {
+      "name": "Trà sữa caramel",
+      "price": 42000,
+      "description": "Sự kết hợp giữa trà sữa và caramel ngọt ngào, béo ngậy.",
+      "imageUrl": "https://daylambanhngon.com/public/frontend/images/battrendcachlamtrasuanuongdamvicaramelgvH7g85U98.jpg"
+    },
+    {
+      "name": "Trà sữa socola",
+      "price": 38000,
+      "description": "Trà sữa kết hợp với socola đen, ngọt đắng hòa quyện.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/04/CookRecipe/GalleryStep/thanh-pham-1340.jpg"
+    },
+    {
+      "name": "Trà sữa ô long",
+      "price": 39000,
+      "description": "Trà sữa ô long thơm ngon, mang hương vị đặc biệt.",
+      "imageUrl": "https://congthucphache.com/wp-content/uploads/2019/12/tra-sua-olong-1.jpg"
+    },
+    {
+      "name": "Trà sữa hạt chia",
+      "price": 45000,
+      "description": "Trà sữa kết hợp với hạt chia giàu dinh dưỡng.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/02/CookRecipe/GalleryStep/thanh-pham-1174.jpg"
+    },
+    {
+      "name": "Trà sữa hoa đậu biếc",
+      "price": 43000,
+      "description": "Trà sữa hoa đậu biếc thơm mát, màu sắc bắt mắt.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/07/CookProduct/1200-1200x676-13.jpg"
+    },
+    {
+      "name": "Trà sữa dâu tây",
+      "price": 47000,
+      "description": "Trà sữa dâu tây ngọt ngào, vị chua nhẹ của dâu tươi.",
+      "imageUrl": "https://dayphache.edu.vn/wp-content/uploads/2022/02/tra-sua-dau-thom-mat.jpg"
+    },
+    {
+      "name": "Trà sữa xoài",
+      "price": 41000,
+      "description": "Trà sữa kết hợp với vị ngọt của xoài tươi mát.",
+      "imageUrl": "https://vietblend.vn/wp-content/uploads/2018/12/tra-sua-xoai.jpg"
+    },
+    {
+      "name": "Trà sữa đậu xanh",
+      "price": 37000,
+      "description": "Trà sữa đậu xanh thơm béo, ngọt ngào.",
+      "imageUrl": "https://cdn.tgdd.vn/Files/2018/05/29/1091745/cach-lam-sua-dau-xanh-tran-chau-ngon-mat-giai-nhiet-202203121621130358.jpg"
+    },
+    {
+      "name": "Trà sữa hạt sen",
+      "price": 40000,
+      "description": "Trà sữa hạt sen thanh mát, dễ chịu.",
+      "imageUrl": "https://images.blog.hatdieubactam.vn/tra-hat-sen-1631179697113-tra-sua-hat-sen-heathy.jpg"
+    },
+    {
+      "name": "Trà sữa sen vàng",
+      "price": 43000,
+      "description": "Trà sữa kết hợp với hương sen thơm mát.",
+      "imageUrl": "https://www.highlandscoffee.com.vn/vnt_upload/product/06_2023/HLC_New_logo_5.1_Products__TSV.jpg"
+    },
+    {
+      "name": "Trà sữa sữa tươi",
+      "price": 38000,
+      "description": "Trà sữa kết hợp với sữa tươi béo ngậy.",
+      "imageUrl": "https://feelingteaonline.com/wp-content/uploads/2020/08/s%C6%B0a-tuoi-tc-%C4%91%C6%B0%E1%BB%9Dng-%C4%91en.jpg"
+    },
+    {
+      "name": "Trà sữa dừa",
+      "price": 42000,
+      "description": "Trà sữa dừa với hương vị ngọt ngào và thơm mát của dừa.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/09/CookProduct/Khongtieude(1)-1200x676.jpg"
+    },
+    {
+      "name": "Trà sữa bạc hà",
+      "price": 42000,
+      "description": "Trà sữa mát lạnh kết hợp với hương bạc hà tươi mới.",
+      "imageUrl": "https://dayphache.edu.vn/wp-content/uploads/2018/05/01d8b43f4f3fa760f12ff89aa5d9028b.jpg"
+    },
+    {
+      "name": "Trà sữa trà xanh",
+      "price": 39000,
+      "description": "Trà sữa kết hợp với trà xanh thanh mát, dễ chịu.",
+      "imageUrl": "https://cdn.tgdd.vn/2021/04/CookRecipe/GalleryStep/thanh-pham-1340.jpg"
+    },
+    {
+      "name": "Trà sữa phúc bồn tử",
+      "price": 44000,
+      "description": "Trà sữa phúc bồn tử với vị chua ngọt tươi mới.",
+      "imageUrl": "https://xebanhangluudongvn.01122018.exdomain.net/image/catalog/TS-PhucBonTu/cach-lam-tra-sua-phuc-bon-tu.jpg"
+    },
+    {
+      "name": "Trà sữa nếp cẩm",
+      "price": 41000,
+      "description": "Trà sữa nếp cẩm với hương vị đặc trưng của nếp cẩm.",
+      "imageUrl": "https://dacsancamvinh.net/wp-content/uploads/2015/08/tra-sua-cam.jpg"
+    },
+    {
+      "name": "Trà sữa táo đỏ",
+      "price": 42000,
+      "description": "Trà sữa táo đỏ mang hương vị ngọt ngào, dễ uống.",
+      "imageUrl": "https://xingfuvietnam.vn/wp-content/uploads/2023/02/xingfu-tra-sua-long-nhan-tao-do-1-FILEminimizer.jpg"
+    },
+    {
+      "name": "Trà sữa hoa cúc",
+      "price": 43000,
+      "description": "Trà sữa hoa cúc thơm nhẹ nhàng, dễ chịu.",
+      "imageUrl": "https://bepbar.com/upload/elfinder/z5533697694707_f65d645c0020c3115c9c173d19ea7394.jpg"
+    },
+    {
+      "name": "Trà sữa trân châu",
+      "price": 50000,
+      "description": "Trà sữa thơm ngon kết hợp với trân châu dẻo dai, ngọt ngào.",
+      "imageUrl": "https://cdn.nguyenkimmall.com/images/companies/_1/tin-tuc/kinh-nghiem-meo-hay/n%E1%BA%A5u%20%C4%83n/cach-lam-tran-chau-tra-sua_1.jpg"
+    }
+  ]
