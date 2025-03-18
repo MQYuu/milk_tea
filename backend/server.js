@@ -20,9 +20,11 @@ app.use(express.json()); // Middleware parse JSON
 // Import routes
 const productRoutes = require('./routes/productsRoutes');
 const usersRoutes = require('./routes/usersRoutes');
+const cartRoutes = require('./routes/cartRouter');
 
 app.use('/products', productRoutes);
 app.use('/users', usersRoutes);
+app.use('/cart', cartRoutes);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {

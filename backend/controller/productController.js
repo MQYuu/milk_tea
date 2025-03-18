@@ -1,11 +1,10 @@
 const asyncHandler = require('express-async-handler');
-const Product = require('../models/Product');
-
+const Product = require('../models/product');
 
 // Get all products
 const getProduct = asyncHandler(async (req, res) => {
     const products = await Product.find();
-    res.status(200).json(products);
+    res.status(200).json(products); 
 })
 
 // Tạo sản phẩm mới
