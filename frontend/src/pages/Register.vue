@@ -35,11 +35,11 @@ const errorMessage = ref(''); // Lưu thông báo lỗi từ backend
 const handleRegister = async () => {
   try {
     errorMessage.value = ''; // Reset lỗi trước khi gửi request
-    console.log("🟢 Gửi request đăng ký với dữ liệu:", user.value);
+    console.log("Gửi request đăng ký với dữ liệu:", user.value);
 
     const response = await registerUser(user.value);
 
-    console.log("🟢 Phản hồi từ server:", response);
+    console.log("Phản hồi từ server:", response);
 
     if (response && response._id) {
       alert(`Đăng ký thành công: ${response.name}`);
@@ -47,11 +47,11 @@ const handleRegister = async () => {
       throw new Error("Phản hồi từ server không hợp lệ");
     }
   } catch (error) {
-    console.error("🔴 Lỗi đăng ký:", error);
+    console.error("Lỗi đăng ký:", error);
 
     // Kiểm tra response từ server
     if (error.response) {
-      console.error("🔴 Chi tiết lỗi từ server:", error.response.data);
+      console.error("Chi tiết lỗi từ server:", error.response.data);
 
       // Nếu server có trả về lỗi chi tiết
       if (error.response.data.message) {
