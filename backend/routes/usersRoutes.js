@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
+    loginUser,
     getUsers,
     createUser,
     getUserByID,
@@ -16,5 +17,6 @@ router.route("/:id")
     .get(getUserByID)
     .put(updateUser)
     .delete(deleteUser) 
+router.post("/login", loginUser);
 
 module.exports = router;
