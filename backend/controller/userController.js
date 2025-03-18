@@ -50,15 +50,13 @@ const getUsers = asyncHandler(async (req, res) => {
     res.status(200).json(users);
 });
 
-// Tạo người dùng mới
 const createUser = asyncHandler(async (req, res) => {
     const { name, email, password, isAdmin } = req.body;
 
     // Kiểm tra xem email đã tồn tại chưa
     const userExists = await User.findOne({ email });
     if (userExists) {
-        res.status(400);
-        throw new Error('Email đã được sử dụng');
+        return res.status(400).json({ message: 'Email đã được sử dụng' }); // ✅ Trả về JSON
     }
 
     // Mã hóa mật khẩu
@@ -79,8 +77,7 @@ const createUser = asyncHandler(async (req, res) => {
             isAdmin: user.isAdmin
         });
     } else {
-        res.status(400);
-        throw new Error('Không thể tạo người dùng');
+        return res.status(400).json({ message: 'Không thể tạo người dùng' }); // Trả về JSON
     }
 });
 
