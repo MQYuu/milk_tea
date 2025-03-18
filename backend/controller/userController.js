@@ -5,17 +5,17 @@ const jwt = require('jsonwebtoken');
 
 // Đăng nhập người dùng
 const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password } = req.body; // Lấy email và mật khẩu từ body request
 
     // Kiểm tra xem người dùng có tồn tại không
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email });  // Tìm user theo email
     if (!user) {
         res.status(401);
         throw new Error('Email không đúng hoặc người dùng chưa đăng ký');
     }
 
     // Kiểm tra mật khẩu
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);  // So sánh mật khẩu
     if (!isMatch) {
         res.status(401);
         throw new Error('Mật khẩu không đúng');
@@ -23,18 +23,17 @@ const loginUser = asyncHandler(async (req, res) => {
 
     // Tạo JWT token
     const token = jwt.sign(
-        { userId: user._id, isAdmin: user.isAdmin },  // Payload
-        process.env.JWT_SECRET,  // Bí mật JWT từ file .env
-        { expiresIn: '30d' }  // Thời gian hết hạn
+        { userId: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' }
     );
 
-    // Trả về thông tin người dùng và token
     res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
         isAdmin: user.isAdmin,
-        token  // Trả về token cho client
+        token
     });
 });
 

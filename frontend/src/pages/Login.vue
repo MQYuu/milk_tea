@@ -29,13 +29,17 @@ const router = useRouter();
 
 const handleLogin = async () => {
   try {
-    const response = await loginUser(user.value);
-    localStorage.setItem('token', response.token); // Lưu token vào localStorage
-    // Chuyển hướng tới trang profile sau khi đăng nhập thành công
-    router.push('/profile');
+    const response = await loginUser(user.value.email, user.value.password);  // Gửi email và password
+    if (response.token) {
+      localStorage.setItem('userToken', response.token); // Lưu token vào localStorage
+      router.push('/profile'); // Chuyển hướng đến profile sau khi đăng nhập thành công
+    } else {
+      alert('Đăng nhập thất bại'); // Thông báo nếu không có token
+    }
   } catch (error) {
     console.error('Lỗi đăng nhập:', error);
-    alert('Đăng nhập thất bại');
+    alert('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập');
   }
 };
+
 </script>
