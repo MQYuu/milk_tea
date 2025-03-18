@@ -12,6 +12,7 @@ const {
 
 router.route("/")
     .get(getUsers)
+router.route("/register")
     .post(createUser)
 router.route("/:id")
     .get(getUserByID)

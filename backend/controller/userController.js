@@ -3,31 +3,37 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Đăng nhập người dùng
 const loginUser = asyncHandler(async (req, res) => {
-    const { email, password } = req.body; // Lấy email và mật khẩu từ body request
+    const { email, password } = req.body;
+    console.log("Yêu cầu đăng nhập:", email, password); // Kiểm tra dữ liệu nhận được
 
-    // Kiểm tra xem người dùng có tồn tại không
-    const user = await User.findOne({ email });  // Tìm user theo email
+    if (!email || !password) {
+        console.log("Lỗi: Thiếu email hoặc password");
+        res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin" });
+        return;
+    }
+
+    const user = await User.findOne({ email });
     if (!user) {
-        res.status(401);
-        throw new Error('Email không đúng hoặc người dùng chưa đăng ký');
+        console.log("Lỗi: Không tìm thấy user");
+        res.status(401).json({ message: "Email không đúng hoặc người dùng chưa đăng ký" });
+        return;
     }
 
-    // Kiểm tra mật khẩu
-    const isMatch = await bcrypt.compare(password, user.password);  // So sánh mật khẩu
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-        res.status(401);
-        throw new Error('Mật khẩu không đúng');
+        console.log("Lỗi: Sai mật khẩu");
+        res.status(401).json({ message: "Mật khẩu không đúng" });
+        return;
     }
 
-    // Tạo JWT token
     const token = jwt.sign(
         { userId: user._id, isAdmin: user.isAdmin },
         process.env.JWT_SECRET,
         { expiresIn: '30d' }
     );
 
+    console.log("Đăng nhập thành công, tạo token:", token);
     res.status(200).json({
         _id: user._id,
         name: user.name,
@@ -36,6 +42,7 @@ const loginUser = asyncHandler(async (req, res) => {
         token
     });
 });
+
 
 // Lấy danh sách người dùng (chỉ dành cho admin)
 const getUsers = asyncHandler(async (req, res) => {

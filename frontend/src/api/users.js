@@ -6,21 +6,20 @@ export const loginUser = async (email, password) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { email, password });
         
-        // Kiểm tra phản hồi từ backend
-        console.log("Response từ backend:", response.data);
+        console.log("Response từ backend:", response); // Kiểm tra toàn bộ response
+        console.log("Response.data:", response.data);  // Kiểm tra dữ liệu API trả về
 
-        // Kiểm tra nếu response không có token
         if (response.data && response.data.token) {
-            localStorage.setItem('userToken', response.data.token);  // Lưu token vào localStorage
-            return response.data; // Trả về token và thông tin người dùng
+            return response.data;
         } else {
             throw new Error('Token không hợp lệ');
         }
     } catch (error) {
         console.error("Đăng nhập thất bại:", error);
-        throw new Error('Lỗi khi đăng nhập');
+        throw error;
     }
 };
+
 
 // Thêm token vào header cho các request sau
 export const getUserProfile = async () => {
@@ -46,7 +45,7 @@ export const getUserProfile = async () => {
 // Gửi request đăng ký user
 export const registerUser = async (userData) => {
     try {
-        const response = await axios.post(API_URL, userData);
+        const response = await axios.post(`${API_URL}/register`, userData);
         return response.data; // Trả về dữ liệu người dùng đã đăng ký
     } catch (error) {
         console.error("Có lỗi xảy ra khi đăng ký:", error);

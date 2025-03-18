@@ -29,12 +29,16 @@ const router = useRouter();
 
 const handleLogin = async () => {
   try {
-    const response = await loginUser(user.value.email, user.value.password);  // Gửi email và password
+    const response = await loginUser(user.value.email, user.value.password);
+    console.log("Token nhận được:", response.token);  // Debug
+
     if (response.token) {
-      localStorage.setItem('userToken', response.token); // Lưu token vào localStorage
-      router.push('/profile'); // Chuyển hướng đến profile sau khi đăng nhập thành công
+      localStorage.setItem('userToken', response.token);
+      console.log("Token đã lưu vào localStorage:", localStorage.getItem('userToken'));
+      router.push('/profile');
     } else {
-      alert('Đăng nhập thất bại'); // Thông báo nếu không có token
+      console.error("Không nhận được token từ API");
+      alert('Đăng nhập thất bại');
     }
   } catch (error) {
     console.error('Lỗi đăng nhập:', error);

@@ -1,38 +1,30 @@
-// Import thư viện Express để tạo server
 const express = require('express'); 
+const cors = require('cors');
+const dotenv = require('dotenv');
+const connectDB = require('./config/dbConnect');
+
 const app = express(); 
-// Middleware để phân tích JSON từ body yêu cầu
-app.use(express.json());
+dotenv.config();
+connectDB();
 
-// Load biến môi trường từ file .env
-require('dotenv').config(); 
+// Cấu hình CORS trước khi định nghĩa routes
+app.use(cors({
+  origin: 'http://localhost:5173', // Chỉ cho phép frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 
-// Import các route của sản phẩm và xác thực người dùng
+app.use(express.json()); // Middleware parse JSON
+
+// Import routes
 const productRoutes = require('./routes/productsRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 
-// Import hàm kết nối với MongoDB
-const connectDB = require('./config/dbConnect');
-
-// Gọi hàm kết nối tới database
-connectDB(); 
-
-
-// Middleware để sử dụng các routes của sản phẩm
 app.use('/products', productRoutes);
 app.use('/users', usersRoutes);
 
-const cors = require('cors');
-app.use(cors({
-  origin: '*',  // Cho phép tất cả các domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Cho phép các phương thức này
-}));
-
-// Middleware cho route xác thực (hiện đang bị comment, chưa sử dụng)
-// app.use('/auth', usersRoutes);
-
-port = process.env.PORT || 3001;
-// Khởi động server, lắng nghe các request trên cổng 3001
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
