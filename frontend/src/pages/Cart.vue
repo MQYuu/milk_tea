@@ -68,4 +68,4 @@ const updateLocalStorage = () => {
 }
 </script>
 
-<style scoped src="../assets/css/Cart.css"></style>
+<style scoped src="../assets/css/cart.css"></style>
