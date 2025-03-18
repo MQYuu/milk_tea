@@ -15,6 +15,10 @@
           <label for="password">Mật khẩu:</label>
           <input v-model="user.password" type="password" id="password" required />
         </div>
+        
+        <!-- Hiển thị lỗi nếu có -->
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        
         <button type="submit" class="login-button">Đăng nhập</button>
       </form>
       <p class="register-text">
@@ -33,9 +37,9 @@ import { loginUser } from '../api/users';
 const user = ref({ email: '', password: '' });
 const userInfo = ref({});
 const isLoggedIn = ref(false);
+const errorMessage = ref('');
 const router = useRouter();
 
-// Kiểm tra nếu đã đăng nhập thì hiển thị thông tin
 onMounted(() => {
   const storedUser = localStorage.getItem("userInfo");
   if (storedUser) {
@@ -46,17 +50,24 @@ onMounted(() => {
 
 const handleLogin = async () => {
   try {
+    errorMessage.value = '';
     const response = await loginUser(user.value.email, user.value.password);
+    
     if (response.token) {
       localStorage.setItem("userToken", response.token);
       localStorage.setItem("userInfo", JSON.stringify({ email: user.value.email }));
       userInfo.value = { email: user.value.email };
       isLoggedIn.value = true;
     } else {
-      alert("Đăng nhập thất bại");
+      throw new Error("Đăng nhập thất bại");
     }
   } catch (error) {
     console.error("Lỗi đăng nhập:", error);
+    if (error.response && error.response.data.message) {
+      errorMessage.value = error.response.data.message;
+    } else {
+      errorMessage.value = "Đăng nhập thất bại. Vui lòng thử lại!";
+    }
   }
 };
 
