@@ -53,24 +53,3 @@ export const registerUser = async (userData) => {
     }
 };
 
-// Cập nhật thông tin người dùng
-export const updateUser = async (id, updatedData) => {
-    try {
-        const response = await axios.put(`${API_URL}/${id}`, updatedData);
-        return response.data;
-    } catch (error) {
-        console.error("Có lỗi xảy ra khi cập nhật thông tin người dùng:", error);
-        throw error;
-    }
-};
-
-// Xóa người dùng
-export const deleteUser = async (id) => {
-    try {
-        const response = await axios.delete(`${API_URL}/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error("Có lỗi xảy ra khi xóa người dùng:", error);
-        throw error;
-    }
-};
