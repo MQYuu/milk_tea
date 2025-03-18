@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
     {
         name: { type: String, 
         required: [true, "Vui lòng thêm tên sản phẩm!"] 
@@ -20,4 +20,4 @@ const productSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.models.Product || mongoose.model('Product', ProductSchema)

@@ -39,9 +39,10 @@ const cart = ref([])
 
 onMounted(async () => {
   if (userStore.userId) {
-    // Đảm bảo trả về một giỏ hàng hợp lệ
     const response = await cartApi.getCart(userStore.userId)
-    cart.value = response.items || [] // Nếu không có sản phẩm thì trả về mảng rỗng
+    cart.value = response.items || []
+    console.log(JSON.stringify(cart.value, null, 2))
+
   }
 })
 

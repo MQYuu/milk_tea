@@ -1,23 +1,36 @@
 const asyncHandler = require('express-async-handler');
 const Cart = require('../models/Cart');
 const User = require('../models/User'); 
+const Product = require('../models/Product');
 
-// Lấy giỏ hàng của người dùng
-const getCart = asyncHandler(async (req, res) => {
-    const userId = req.params.userId;
-
-    // Kiểm tra xem người dùng có tồn tại không
-    const user = await User.findById(userId);
-    if (!user) {
-        return res.status(404).json({ message: "Người dùng không tồn tại" });
+const getCart = async (req, res) => {
+    try {
+      const cart = await Cart.findOne({ userId: req.params.userId }).populate('items.productId')
+  
+      if (!cart) {
+        return res.status(404).json({ message: 'Giỏ hàng không tồn tại' })
+      }
+  
+      // Tạo ra một danh sách các sản phẩm trong giỏ hàng với đủ thông tin
+      const cartItems = await Promise.all(cart.items.map(async (item) => {
+        const product = await Product.findById(item.productId)
+  
+        return {
+          productId: product._id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          quantity: item.quantity,
+        }
+      }))
+  
+      res.json({ items: cartItems })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ message: 'Lỗi khi lấy giỏ hàng' })
     }
-
-    // Nếu người dùng tồn tại, tiếp tục tìm giỏ hàng
-    const cart = await Cart.findOne({ userId });
-
-    // Nếu giỏ hàng không tồn tại, trả về giỏ hàng rỗng
-    res.json(cart || { userId: userId, items: [] });
-});
+};
 
 // Thêm sản phẩm vào giỏ hàng
 const addToCart = asyncHandler(async (req, res) => {
