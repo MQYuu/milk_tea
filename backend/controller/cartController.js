@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Cart = require('../models/Cart');
 const User = require('../models/User'); 
 const Product = require('../models/Product');
+const mongoose = require('mongoose');
 
 const getCart = async (req, res) => {
     try {
@@ -105,7 +106,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
         if (item.productId && mongoose.Types.ObjectId.isValid(item.productId)) {
             // So sánh ObjectId trực tiếp mà không dùng toString()
             const productIdFromItem = item.productId;
-            const isMatching = productIdFromItem.equals(mongoose.Types.ObjectId(productId)); 
+            const isMatching = productIdFromItem.equals(new mongoose.Types.ObjectId(productId)); 
             console.log('So sánh:', productIdFromItem, 'với', productId, '-> Kết quả:', isMatching);
             return !isMatching; // Loại bỏ item nếu match
         } else {

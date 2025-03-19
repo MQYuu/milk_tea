@@ -90,7 +90,7 @@ const updateQuantity = async (productId, quantity) => {
   }
   // Lấy lại giỏ hàng sau khi thay đổi
   const response = await cartApi.getCart(userStore.userId)
-  cart.value = response.items || []
+  cart.value = response.items || [] 
 }
 
 const removeFromCart = async (productId) => {
