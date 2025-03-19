@@ -25,7 +25,6 @@ export default {
     }
   
     try {
-      // Sử dụng URL đúng theo backend
       const response = await axios.delete(`${API_URL}/${userId}/${productId}`)
       return response.data
     } catch (error) {

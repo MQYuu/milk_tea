@@ -11,10 +11,10 @@ const {
 
 router.route("/:userId")
     .get(getCart)
-    .post(addToCart)
-    .put(updateCart)
     .delete(clearCart)
 router.route("/:userId/:productId")
     .delete(removeFromCart)
+router.post("/add", addToCart);
+router.put("/update", updateCart);
 
 module.exports = router;
