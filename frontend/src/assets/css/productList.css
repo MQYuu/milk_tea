@@ -84,6 +84,44 @@
     font-weight: bold;
     margin-top: 10px;
   }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  .pagination button {
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 2px solid #007bff;
+    background-color: white;
+    color: #007bff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .pagination button:hover {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .pagination button:disabled {
+    border-color: #ccc;
+    background-color: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  .pagination span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }  
   
   /* Responsive Design: Khi màn hình nhỏ hơn 1024px, lưới sẽ có 3 cột */
   @media (max-width: 1024px) {
