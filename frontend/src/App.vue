@@ -17,7 +17,7 @@
 
     <!-- Footer -->
     <footer>
-      <p>&copy; 2025 Milk Tea Shop. All rights reserved.</p>
+      <p>&copy; 2025 Milk Tea Shop</p>
     </footer>
   </div>
 </template>
