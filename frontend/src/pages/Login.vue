@@ -2,6 +2,7 @@
   <div class="login-container">
     <div v-if="isLoggedIn" class="profile-box">
       <h1>Chào mừng, {{ userInfo.email }}</h1>
+      <router-link to="/profile" class="router-link-profile">Xem thông tin cá nhân</router-link>
       <button class="logout-button" @click="handleLogout">Đăng xuất</button>
     </div>
     <div v-else class="login-box">
