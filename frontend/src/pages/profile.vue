@@ -6,7 +6,7 @@
       <!-- Avatar -->
       <div class="avatar-container">
         <img :src="userInfo.avatar || defaultAvatar" alt="Avatar" class="avatar" />
-        <label for="avatarInput" class="avatar-button">🖼️ Thay Avatar</label>
+        <label for="avatarInput" class="avatar-button">Change Avatar</label>
         <input type="file" id="avatarInput" @change="uploadAvatar" accept="image/*" />
       </div>
 
@@ -26,7 +26,7 @@
       </div>
 
       <div class="button-group">
-        <router-link to="/" class="home-link">🏠 Về trang chủ</router-link>
+        <router-link to="/" class="home-link">Về trang chủ</router-link>
         <router-link to="/login" class="login-link">Về trang đăng nhập</router-link>
       </div>
     </div>

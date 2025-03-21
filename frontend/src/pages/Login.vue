@@ -2,8 +2,11 @@
   <div class="login-container">
     <div v-if="isLoggedIn" class="profile-box">
       <h1>Chào mừng, {{ userInfo.email }}</h1>
-      <router-link to="/profile" class="router-link-profile">Xem thông tin cá nhân</router-link>
-      <button class="logout-button" @click="handleLogout">Đăng xuất</button>
+      <div class="button-container">
+        <router-link to="/profile" class="router-link-profile">Xem thông tin cá nhân</router-link>
+        <button class="logout-button" @click="handleLogout">Đăng xuất</button>
+      </div>
+
     </div>
     <div v-else class="login-box">
       <h1>Đăng nhập</h1>
@@ -16,10 +19,10 @@
           <label for="password">Mật khẩu:</label>
           <input v-model="user.password" type="password" id="password" required />
         </div>
-        
+
         <!-- Hiển thị lỗi nếu có -->
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        
+
         <button type="submit" class="login-button">Đăng nhập</button>
       </form>
       <p class="register-text">
@@ -56,8 +59,8 @@ const handleLogin = async () => {
 
     if (response.token) {
       // Lưu thông tin đăng nhập, bao gồm userId
-      const userData = { 
-        email: user.value.email, 
+      const userData = {
+        email: user.value.email,
         userId: response._id  // Sử dụng response._id thay vì response.userId
       };
 

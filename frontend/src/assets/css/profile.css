@@ -28,19 +28,33 @@
 }
 
 .avatar-button {
+    position: relative;
     margin-top: 10px;
     display: inline-block;
     padding: 8px 12px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: none;
+    color: #45a049;
     font-size: 14px;
+    font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
+    
+}
+.avatar-button::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #43e153;
+    transition: width 0.3s ease, left 0.3s ease;
 }
 
-.avatar-button:hover {
-    background-color: #45a049;
+.avatar-button:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 .profile-details {
@@ -88,30 +102,24 @@
 
 .home-link,
 .login-link {
+    position: relative; /* Để ::after hoạt động */
+    display: inline-block;
     padding: 10px 15px;
     font-size: 16px;
     font-weight: bold;
+    width: 150px;
+    text-align: center;
     border-radius: 5px;
     text-decoration: none;
+    color: #348947;
+    background-color: none;
     transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng */
 }
 
-.home-link {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.home-link:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-}
-
-.login-link {
-    background-color: #f44336;
-    color: white;
-}
-
+/* Hiệu ứng khi hover */
+.home-link:hover,
 .login-link:hover {
-    background-color: #d32f2f;
-    transform: scale(1.05);
+    transform: translateY(-3px); /* Nâng lên 3px */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Đổ bóng mạnh hơn */
 }

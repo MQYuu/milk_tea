@@ -1,17 +1,17 @@
 <template>
-  <div class="change-password-container">
-    <h2>🔒 Đổi mật khẩu</h2>
+    <div class="change-password-container">
+        <h2>Đổi mật khẩu</h2>
 
-    <div class="password-inputs">
-      <input v-model="oldPassword" type="password" placeholder="🔑 Nhập mật khẩu cũ" />
-      <input v-model="newPassword" type="password" placeholder="🔐 Nhập mật khẩu mới" />
+        <div class="password-inputs">
+            <input v-model="oldPassword" type="password" placeholder="Nhập mật khẩu cũ" />
+            <input v-model="newPassword" type="password" placeholder="Nhập mật khẩu mới" />
+        </div>
+
+        <p v-if="message" class="message">{{ message }}</p>
+
+        <button @click="changePassword" class="change-password-btn">Xác nhận</button>
+        <button @click="goBack" class="back-btn">Quay lại trang cá nhân</button>
     </div>
-
-    <button @click="changePassword" class="change-password-btn">✅ Xác nhận</button>
-    <button @click="goBack" class="back-btn">⬅️ Quay lại trang cá nhân</button>
-
-    <p v-if="message" class="message">{{ message }}</p>
-  </div>
 </template>
 
 <script setup>
@@ -27,73 +27,34 @@ const router = useRouter();
 const userInfo = JSON.parse(localStorage.getItem("userInfo")) || {};
 
 const changePassword = async () => {
-  if (!oldPassword.value || !newPassword.value) {
-    message.value = "Vui lòng nhập đầy đủ thông tin!";
-    return;
-  }
-
-  try {
-    const response = await changePasswordApi(userInfo.userId, oldPassword.value, newPassword.value);
-    if (response.success) {
-      message.value = "🎉 Đổi mật khẩu thành công!";
-      oldPassword.value = "";
-      newPassword.value = "";
-
-      // Quay lại trang profile sau 2 giây
-      setTimeout(() => {
-        router.push("/profile");
-      }, 2000);
-    } else {
-      message.value = response.message;
+    if (!oldPassword.value || !newPassword.value) {
+        message.value = "Vui lòng nhập đầy đủ thông tin!";
+        return;
     }
-  } catch (error) {
-    console.error("Lỗi đổi mật khẩu:", error);
-    message.value = "Lỗi khi đổi mật khẩu!";
-  }
+
+    try {
+        const response = await changePasswordApi(userInfo.userId, oldPassword.value, newPassword.value);
+        if (response.success) {
+            message.value = "Đổi mật khẩu thành công!";
+            oldPassword.value = "";
+            newPassword.value = "";
+
+            // Quay lại trang profile sau 2 giây
+            setTimeout(() => {
+                router.push("/profile");
+            }, 1500);
+        } else {
+            message.value = response.message;
+        }
+    } catch (error) {
+        console.error("Lỗi đổi mật khẩu:", error);
+        message.value = error;
+    }
 };
 
 const goBack = () => {
-  router.push("/profile");
+    router.push("/profile");
 };
 </script>
 
-<style scoped>
-.change-password-container {
-  text-align: center;
-  max-width: 400px;
-  margin: auto;
-}
-
-.password-inputs input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.change-password-btn, .back-btn {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.change-password-btn {
-  background-color: #4CAF50;
-  color: white;
-}
-
-.back-btn {
-  background-color: #f44336;
-  color: white;
-}
-
-.message {
-  margin-top: 10px;
-  color: green;
-  font-weight: bold;
-}
-</style>
+<style scoped src="../assets/css/change-password.css"></style>
