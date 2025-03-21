@@ -5,7 +5,7 @@ const API_URL = "http://localhost:3001/users"; // Địa chỉ của backend
 export const loginUser = async (email, password) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { email, password });
-        
+
         console.log("Response từ backend:", response); // Kiểm tra toàn bộ response
         console.log("Response.data:", response.data);  // Kiểm tra dữ liệu API trả về
 
@@ -50,6 +50,20 @@ export const registerUser = async (userData) => {
     } catch (error) {
         console.error("Có lỗi xảy ra khi đăng ký:", error);
         throw error;
+    }
+};
+
+export const changePasswordApi = async (userId, oldPassword, newPassword) => {
+    try {
+        const response = await axios.post(`${API_URL}/change-password`, {
+            userId,
+            oldPassword,
+            newPassword,
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error.response?.data?.message || "Lỗi kết nối đến server!";
     }
 };
 

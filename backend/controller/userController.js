@@ -43,6 +43,39 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 });
 
+const changePassword = async (req, res) => {
+    try {
+        const { userId, oldPassword, newPassword } = req.body;
+
+        if (!userId || !oldPassword || !newPassword) {
+            return res.status(400).json({ success: false, message: "Vui lòng nhập đủ thông tin!" });
+        }
+
+        // Tìm user trong database
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "Không tìm thấy người dùng!" });
+        }
+
+        // Kiểm tra mật khẩu cũ
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ success: false, message: "Mật khẩu cũ không đúng!" });
+        }
+
+        // Mã hóa mật khẩu mới
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(newPassword, salt);
+
+        // Lưu vào database
+        await user.save();
+
+        res.status(200).json({ success: true, message: "Đổi mật khẩu thành công!" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Lỗi server!", error: error.message });
+    }
+};
+
 
 // Lấy danh sách người dùng (chỉ dành cho admin)
 const getUsers = asyncHandler(async (req, res) => {
@@ -131,4 +164,4 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Người dùng đã bị xóa' });
 });
 
-module.exports = { getUsers, createUser, getUserByID, updateUser, deleteUser, loginUser };
+module.exports = { getUsers, createUser, getUserByID, updateUser, deleteUser, loginUser, changePassword };
