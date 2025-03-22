@@ -68,13 +68,24 @@ export const changePasswordApi = async (userId, oldPassword, newPassword) => {
     }
 };
 
+// Lấy thông tin user từ backend
+export const getUserInfo = async (userId) => {
+    try {
+      const response = await axios.get(`${API_URL}/${userId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Lỗi khi lấy thông tin user:", error);
+      return null;
+    }
+  };
+
 // Upload avatar
-export const uploadAvatar = async (userId, file) => {
+export const uploadUserAvatar = async (userId, file) => {
     const formData = new FormData();
     formData.append("avatar", file);
 
     try {
-        const response = await axios.post(`${API_BASE_URL}/users/upload-avatar/${userId}`, formData, {
+        const response = await axios.post(`${API_URL}/upload-avatar/${userId}`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
 
@@ -96,7 +107,7 @@ export const fetchUserData = async () => {
         if (!user.avatar) {
             const data = await getUserInfo(user.userId);
             if (data?.avatar) {
-                user.avatar = `${API_BASE_URL}${data.avatar}`;
+                user.avatar = `${API_URL}${data.avatar}`;
 
                 // Cập nhật lại localStorage
                 localStorage.setItem("userInfo", JSON.stringify(user));

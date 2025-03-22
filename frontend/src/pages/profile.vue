@@ -8,7 +8,7 @@
       <div class="avatar-container">
         <img :src="userInfo.avatar || defaultAvatar" alt="Avatar" class="avatar" />
         <label for="avatarInput" class="avatar-button">Đổi Avatar</label>
-        <input type="file" id="avatarInput" @change="uploadAvatar" accept="image/*" />
+        <input type="file" id="avatarInput" @change="handleUploadAvatar" accept="image/*" />
       </div>
 
       <!-- Hiển thị email -->
@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { fetchUserData, uploadAvatar } from '../api/users'; // Import API
+import { fetchUserData, uploadUserAvatar } from '../api/users'; // Import API
 
 const userInfo = ref(null);
 const defaultAvatar = ref("https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg");
@@ -59,7 +59,7 @@ const handleUploadAvatar = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  const response = await uploadAvatar(userInfo.value.userId, file);
+  const response = await uploadUserAvatar(userInfo.value.userId, file);
   if (response?.avatar) {
     const newAvatar = `http://localhost:3001${response.avatar}`;
     userInfo.value.avatar = newAvatar;
