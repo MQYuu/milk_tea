@@ -88,19 +88,19 @@ const removeFromCart = asyncHandler(async (req, res) => {
     let cart = await Cart.findOne({ userId });
 
     if (!cart) {
-        console.log('Giỏ hàng không tồn tại');
+        //console.log('Giỏ hàng không tồn tại');
         return res.status(404).json({ message: "Giỏ hàng không tồn tại" });
     }
 
     // Kiểm tra productId hợp lệ
-    console.log('productId từ request:', productId);
+    //console.log('productId từ request:', productId);
     if (!mongoose.Types.ObjectId.isValid(productId)) {
-        console.log('productId không hợp lệ:', productId);
+        //console.log('productId không hợp lệ:', productId);
         return res.status(400).json({ message: "Product ID không hợp lệ" });
     }
 
     // Kiểm tra giỏ hàng trước khi xóa
-    console.log('Trước khi xóa, giỏ hàng hiện tại:', cart.items);
+   // console.log('Trước khi xóa, giỏ hàng hiện tại:', cart.items);
 
     // So sánh productId mà không dùng toString()
     cart.items = cart.items.filter(item => {
@@ -109,23 +109,23 @@ const removeFromCart = asyncHandler(async (req, res) => {
             // So sánh ObjectId trực tiếp mà không dùng toString()
             const productIdFromItem = item.productId;
             const isMatching = productIdFromItem.equals(new mongoose.Types.ObjectId(productId));
-            console.log('So sánh:', productIdFromItem, 'với', productId, '-> Kết quả:', isMatching);
+            //console.log('So sánh:', productIdFromItem, 'với', productId, '-> Kết quả:', isMatching);
             return !isMatching; // Loại bỏ item nếu match
         } else {
-            console.log('Sản phẩm có productId không hợp lệ hoặc undefined:', item);
+            //console.log('Sản phẩm có productId không hợp lệ hoặc undefined:', item);
             return true;  // Nếu productId không hợp lệ, giữ lại item đó
         }
     });
 
     // Nếu giỏ hàng không còn sản phẩm, xóa giỏ hàng
     if (cart.items.length === 0) {
-        console.log('Giỏ hàng đã trống, xóa giỏ hàng');
+        //console.log('Giỏ hàng đã trống, xóa giỏ hàng');
         await cart.deleteOne(); // Xóa giỏ hàng nếu không còn sản phẩm
         return res.json({ message: "Giỏ hàng đã trống và đã được xóa" });
     }
 
     await cart.save();
-    console.log('Giỏ hàng sau khi xóa sản phẩm:', cart.items);
+    //console.log('Giỏ hàng sau khi xóa sản phẩm:', cart.items);
     res.json(cart);
 });
 
