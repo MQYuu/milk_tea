@@ -68,3 +68,53 @@ export const changePasswordApi = async (userId, oldPassword, newPassword) => {
     }
 };
 
+// Lấy thông tin user từ backend
+export const getUserInfo = async (userId) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/users/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi lấy thông tin user:", error);
+        return null;
+    }
+};
+
+// Upload avatar
+export const uploadAvatar = async (userId, file) => {
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+        const response = await axios.post(`${API_BASE_URL}/users/upload-avatar/${userId}`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Lỗi khi upload avatar:", error);
+        return null;
+    }
+};
+
+// Lấy user từ localStorage hoặc backend
+export const fetchUserData = async () => {
+    const storedUser = localStorage.getItem("userInfo");
+
+    if (storedUser) {
+        const user = JSON.parse(storedUser);
+
+        // Nếu chưa có avatar, gọi API lấy từ backend
+        if (!user.avatar) {
+            const data = await getUserInfo(user.userId);
+            if (data?.avatar) {
+                user.avatar = `${API_BASE_URL}${data.avatar}`;
+
+                // Cập nhật lại localStorage
+                localStorage.setItem("userInfo", JSON.stringify(user));
+            }
+        }
+        return user;
+    }
+
+    return null;
+};
