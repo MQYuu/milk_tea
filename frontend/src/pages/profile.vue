@@ -6,7 +6,7 @@
       <!-- Avatar -->
       <div class="avatar-container">
         <img :src="userInfo.avatar || defaultAvatar" alt="Avatar" class="avatar" />
-        <label for="avatarInput" class="avatar-button">Change Avatar</label>
+        <label for="avatarInput" class="avatar-button">Đổi Avatar</label>
         <input type="file" id="avatarInput" @change="uploadAvatar" accept="image/*" />
       </div>
 
@@ -20,9 +20,7 @@
       </div>
 
       <div class="change-password-container">
-        <span>
-          <router-link to="/change-password" class="change-password-link">Đổi mật khẩu</router-link>
-        </span>
+        <router-link to="/change-password" class="change-password-link">Đổi mật khẩu</router-link>
       </div>
 
       <div class="button-group">
@@ -37,28 +35,64 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 const userInfo = ref(null);
 const defaultAvatar = ref("https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg");
 
-onMounted(() => {
+onMounted(async () => {
   const storedUser = localStorage.getItem("userInfo");
 
   if (storedUser) {
     userInfo.value = JSON.parse(storedUser);
   }
+
+  // Kiểm tra nếu không có avatar thì gọi API lấy lại từ backend
+  if (!userInfo.value?.avatar) {
+    try {
+      const response = await axios.get(`http://localhost:3001/users/${userInfo.value.userId}`);
+      if (response.data.avatar) {
+        userInfo.value.avatar = `http://localhost:3001${response.data.avatar}`;
+
+        // Cập nhật lại localStorage
+        const storedUser = JSON.parse(localStorage.getItem("userInfo")) || {};
+        storedUser.avatar = userInfo.value.avatar;
+        localStorage.setItem("userInfo", JSON.stringify(storedUser));
+      }
+    } catch (error) {
+      console.error("Lỗi khi tải avatar từ backend:", error);
+    }
+  }
 });
 
-const uploadAvatar = (event) => {
+const uploadAvatar = async (event) => {
   const file = event.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-    userInfo.value.avatar = reader.result;
-    localStorage.setItem("userInfo", JSON.stringify(userInfo.value));
-  };
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  try {
+    const response = await axios.post(`http://localhost:3001/users/upload-avatar/${userInfo.value.userId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    if (response.data.avatar) {
+      const newAvatar = `http://localhost:3001${response.data.avatar}`;
+      userInfo.value.avatar = newAvatar;
+
+      // Cập nhật localStorage
+      const storedUser = JSON.parse(localStorage.getItem("userInfo")) || {};
+      storedUser.avatar = newAvatar;
+      localStorage.setItem("userInfo", JSON.stringify(storedUser));
+
+      console.log("Cập nhật avatar thành công!", newAvatar);
+    } else {
+      console.error("Lỗi khi upload avatar:", response.data.message);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gửi yêu cầu upload:", error);
+  }
 };
 
 </script>
