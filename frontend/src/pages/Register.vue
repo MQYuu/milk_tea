@@ -69,11 +69,3 @@ const handleRegister = async () => {
 </script>
 
 <style scoped src="../assets/css/register.css"></style>
-
-<style scoped>
-.error-message {
-  color: red;
-  font-size: 14px;
-  margin-top: 10px;
-}
-</style>

@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup>
+<!-- <script setup>
 import { ref, onMounted } from 'vue'
 import AddToCartButton from '../components/AddToCartButton.vue'
 
@@ -99,6 +99,6 @@ onMounted(async () => {
     console.error('Error fetching products:', error)
   }
 })
-</script>
+</script> -->
 
 <style scoped src="../assets/css/home.css"></style>
