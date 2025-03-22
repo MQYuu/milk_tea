@@ -2,6 +2,14 @@
   <div class="product-page">
     <h2 class="page-title">Danh sách sản phẩm</h2>
 
+    <!-- Thanh tìm kiếm -->
+    <div class="search-bar">
+      <input v-model="searchQuery" type="text" placeholder="Tìm kiếm sản phẩm..." class="search-input" />
+      <button class="search-button">
+        🔍
+      </button>
+    </div>
+
     <!-- Danh sách sản phẩm được hiển thị theo trang -->
     <ul class="product-list">
       <li v-for="product in paginatedProducts" :key="product.id" class="product-item">
@@ -38,6 +46,7 @@ const formatPrice = (price) => {
 
 // Danh sách sản phẩm
 const products = ref([])
+const searchQuery = ref("")
 
 // Biến lưu số trang hiện tại
 const currentPage = ref(1)
@@ -56,15 +65,21 @@ onMounted(async () => {
   }
 })
 
-// Tính tổng số trang dựa trên tổng số sản phẩm chia cho số sản phẩm mỗi trang
-const totalPages = computed(() => Math.ceil(products.value.length / itemsPerPage))
-
-// Lọc danh sách sản phẩm theo trang hiện tại
-const paginatedProducts = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage // Vị trí bắt đầu của trang
-  const end = start + itemsPerPage // Vị trí kết thúc của trang
-  return products.value.slice(start, end) // Cắt danh sách theo khoảng trên
+// Lọc sản phẩm theo từ khóa tìm kiếm
+const filteredProducts = computed(() => {
+  return products.value.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
 })
+
+// Tính tổng số trang dựa trên tổng số sản phẩm chia cho số sản phẩm mỗi trang
+const totalPages = computed(() => Math.ceil(filteredProducts.value.length / itemsPerPage))
+
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredProducts.value.slice(start, end); // Sử dụng danh sách đã lọc
+});
 
 // Chuyển về trang trước (nếu không phải trang đầu tiên)
 const prevPage = () => {
