@@ -3,6 +3,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Login
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     console.log("Yêu cầu đăng nhập:", email, password); // Kiểm tra dữ liệu nhận được
@@ -43,6 +44,7 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 });
 
+// Đổi mật khẩu user 
 const changePassword = async (req, res) => {
     try {
         const { userId, oldPassword, newPassword } = req.body;

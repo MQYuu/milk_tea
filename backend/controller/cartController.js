@@ -4,6 +4,7 @@ const User = require('../models/User');
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
+//Lấy giỏ hàng
 const getCart = async (req, res) => {
     try {
       const { userId } = req.params;
@@ -54,6 +55,7 @@ const getCart = async (req, res) => {
     }
   };    
 
+//Thêm sản phẩm vào giỏ hàng 
 const addToCart = asyncHandler(async (req, res) => {
     const { userId, productId, name, price } = req.body;
     let cart = await Cart.findOne({ userId });

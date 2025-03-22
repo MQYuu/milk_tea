@@ -23,7 +23,7 @@ export default {
       console.error('Product ID is missing!');
       return;
     }
-  
+
     try {
       const response = await axios.delete(`${API_URL}/${userId}/${productId}`)
       return response.data
@@ -31,9 +31,4 @@ export default {
       console.error('Error removing product from cart:', error)
     }
   },
-
-  async clearCart(userId) {
-    const response = await axios.delete(`${API_URL}/clear/${userId}`)
-    return response.data
-  }
 }

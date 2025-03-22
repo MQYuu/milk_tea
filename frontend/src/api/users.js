@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3001/users"; // Địa chỉ của backend
 
+// Gửi request đăng nhập 
 export const loginUser = async (email, password) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { email, password });
@@ -19,7 +20,6 @@ export const loginUser = async (email, password) => {
         throw error;
     }
 };
-
 
 // Thêm token vào header cho các request sau
 export const getUserProfile = async () => {
@@ -53,6 +53,7 @@ export const registerUser = async (userData) => {
     }
 };
 
+// Gửi request đổi password 
 export const changePasswordApi = async (userId, oldPassword, newPassword) => {
     try {
         const response = await axios.post(`${API_URL}/change-password`, {
