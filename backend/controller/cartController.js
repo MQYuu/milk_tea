@@ -100,7 +100,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
     }
 
     // Kiểm tra giỏ hàng trước khi xóa
-   // console.log('Trước khi xóa, giỏ hàng hiện tại:', cart.items);
+    // console.log('Trước khi xóa, giỏ hàng hiện tại:', cart.items);
 
     // So sánh productId mà không dùng toString()
     cart.items = cart.items.filter(item => {

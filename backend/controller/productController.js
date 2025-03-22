@@ -4,7 +4,7 @@ const Product = require('../models/product');
 // Get all products
 const getProduct = asyncHandler(async (req, res) => {
     const products = await Product.find();
-    res.status(200).json(products); 
+    res.status(200).json(products);
 })
 
 // Tạo sản phẩm mới
@@ -71,20 +71,20 @@ const createProduct = asyncHandler(async (req, res) => {
 
 
 // Lấy sản phẩm theo ID
-const getProductByID = asyncHandler(async (req, res) =>{
+const getProductByID = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
-    if(product){
+    if (product) {
         res.json(product);
-    }else{
-        res.status(404).json({message: "Không tìm thấy sản phẩm"});
+    } else {
+        res.status(404).json({ message: "Không tìm thấy sản phẩm" });
     }
 })
 
 // Cập nhật thông tin sản phẩm
-const updateProduct = asyncHandler(async (req, res) =>{
-    const {name, price, description, imageUrl} = req.body;
+const updateProduct = asyncHandler(async (req, res) => {
+    const { name, price, description, imageUrl } = req.body;
     const product = await Product.findById(req.params.id);
-    if(product){
+    if (product) {
         product.name = name;
         product.price = price;
         product.description = description;
