@@ -3,6 +3,31 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Upload avatar
+const uploadAvatar = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: "Vui lòng chọn ảnh!" });
+        }
+
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: "Người dùng không tồn tại!" });
+        }
+
+        // Cập nhật avatar
+        user.avatar = `/uploads/${req.file.filename}`;
+        await user.save();
+
+        res.status(200).json({
+            message: "Cập nhật ảnh đại diện thành công!",
+            avatar: user.avatar
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Lỗi server!", error: error.message });
+    }
+};
+
 // Login
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
@@ -166,4 +191,4 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Người dùng đã bị xóa' });
 });
 
-module.exports = { getUsers, createUser, getUserByID, updateUser, deleteUser, loginUser, changePassword };
+module.exports = { getUsers, createUser, getUserByID, updateUser, deleteUser, loginUser, changePassword, uploadAvatar };

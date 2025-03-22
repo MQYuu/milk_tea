@@ -11,6 +11,9 @@ const userSchema = new mongoose.Schema(
         password: { type: String,
         required: [true, "Vui lòng thêm mật khẩu người dùng!"]
         },
+        avatar: { type: String,
+        default: ""
+        },
         isAdmin: { type: Boolean,
         required: true,
         default: false
