@@ -20,18 +20,18 @@ const getCart = async (req, res) => {
         }
 
         // Debug: Kiểm tra các item trong giỏ hàng
-        console.log("Giỏ hàng của người dùng: ", cart);
+        //console.log("Giỏ hàng của người dùng: ", cart);
 
         // Tạo ra một danh sách các sản phẩm trong giỏ hàng với đủ thông tin
         const cartItems = await Promise.all(cart.items.map(async (item) => {
             // Debug: Kiểm tra giá trị của productId trong item
-            console.log("Đang xử lý item:", item);
-            console.log("productId trong item:", item.productId);
+            //console.log("Đang xử lý item:", item);
+            //console.log("productId trong item:", item.productId);
 
             const product = await Product.findById(item.productId);
 
             if (!product) {
-                console.log(`Sản phẩm với ID ${item.productId} không tồn tại.`);
+                //console.log(`Sản phẩm với ID ${item.productId} không tồn tại.`);
                 return null;  // Nếu sản phẩm không tồn tại, trả về null hoặc có thể bỏ qua
             }
 
@@ -50,7 +50,7 @@ const getCart = async (req, res) => {
 
         res.json({ items: validCartItems });
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         res.status(500).json({ message: 'Lỗi khi lấy giỏ hàng' });
     }
 };
