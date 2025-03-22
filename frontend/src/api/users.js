@@ -68,17 +68,6 @@ export const changePasswordApi = async (userId, oldPassword, newPassword) => {
     }
 };
 
-// Lấy thông tin user từ backend
-export const getUserInfo = async (userId) => {
-    try {
-        const response = await axios.get(`${API_BASE_URL}/users/${userId}`);
-        return response.data;
-    } catch (error) {
-        console.error("Lỗi khi lấy thông tin user:", error);
-        return null;
-    }
-};
-
 // Upload avatar
 export const uploadAvatar = async (userId, file) => {
     const formData = new FormData();
