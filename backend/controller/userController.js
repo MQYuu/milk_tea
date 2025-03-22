@@ -2,6 +2,8 @@ const asyncHandler = require('express-async-handler');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fs = require("fs");
+const path = require("path");
 
 // Upload avatar
 const uploadAvatar = async (req, res) => {
@@ -15,9 +17,23 @@ const uploadAvatar = async (req, res) => {
             return res.status(404).json({ message: "Người dùng không tồn tại!" });
         }
 
-        // Cập nhật avatar
+        // Xác định đường dẫn ảnh cũ
+        const oldAvatarPath = user.avatar ? path.join(__dirname, "..", user.avatar) : null;
+
+        // Cập nhật avatar mới
         user.avatar = `/uploads/${req.file.filename}`;
         await user.save();
+
+        // Xóa ảnh cũ nếu có và không phải ảnh mặc định
+        if (oldAvatarPath && fs.existsSync(oldAvatarPath) && !oldAvatarPath.includes("https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg")) {
+            fs.unlink(oldAvatarPath, (err) => {
+                if (err) {
+                    console.error("Lỗi khi xóa avatar cũ:", err);
+                } else {
+                    console.log("Đã xóa avatar cũ thành công!");
+                }
+            });
+        }
 
         res.status(200).json({
             message: "Cập nhật ảnh đại diện thành công!",
