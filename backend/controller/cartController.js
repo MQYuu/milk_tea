@@ -1,59 +1,59 @@
 const asyncHandler = require('express-async-handler');
 const Cart = require('../models/Cart');
-const User = require('../models/User'); 
+const User = require('../models/user');
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
 
 //Lấy giỏ hàng
 const getCart = async (req, res) => {
     try {
-      const { userId } = req.params;
-  
-      if (!userId) {
-        return res.status(400).json({ message: 'User ID không hợp lệ' });
-      }
-  
-      const cart = await Cart.findOne({ userId }).populate('items.productId');
-  
-      if (!cart) {
-        return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
-      }
-  
-      // Debug: Kiểm tra các item trong giỏ hàng
-      console.log("Giỏ hàng của người dùng: ", cart);
-  
-      // Tạo ra một danh sách các sản phẩm trong giỏ hàng với đủ thông tin
-      const cartItems = await Promise.all(cart.items.map(async (item) => {
-        // Debug: Kiểm tra giá trị của productId trong item
-        console.log("Đang xử lý item:", item);
-        console.log("productId trong item:", item.productId);
-        
-        const product = await Product.findById(item.productId);
-  
-        if (!product) {
-          console.log(`Sản phẩm với ID ${item.productId} không tồn tại.`);
-          return null;  // Nếu sản phẩm không tồn tại, trả về null hoặc có thể bỏ qua
+        const { userId } = req.params;
+
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID không hợp lệ' });
         }
-  
-        return {
-          productId: product._id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          quantity: item.quantity,
-        };
-      }));
-  
-      // Lọc ra các sản phẩm hợp lệ (tránh null nếu không tìm thấy sản phẩm)
-      const validCartItems = cartItems.filter(item => item !== null);
-  
-      res.json({ items: validCartItems });
+
+        const cart = await Cart.findOne({ userId }).populate('items.productId');
+
+        if (!cart) {
+            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+        }
+
+        // Debug: Kiểm tra các item trong giỏ hàng
+        console.log("Giỏ hàng của người dùng: ", cart);
+
+        // Tạo ra một danh sách các sản phẩm trong giỏ hàng với đủ thông tin
+        const cartItems = await Promise.all(cart.items.map(async (item) => {
+            // Debug: Kiểm tra giá trị của productId trong item
+            console.log("Đang xử lý item:", item);
+            console.log("productId trong item:", item.productId);
+
+            const product = await Product.findById(item.productId);
+
+            if (!product) {
+                console.log(`Sản phẩm với ID ${item.productId} không tồn tại.`);
+                return null;  // Nếu sản phẩm không tồn tại, trả về null hoặc có thể bỏ qua
+            }
+
+            return {
+                productId: product._id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                imageUrl: product.imageUrl,
+                quantity: item.quantity,
+            };
+        }));
+
+        // Lọc ra các sản phẩm hợp lệ (tránh null nếu không tìm thấy sản phẩm)
+        const validCartItems = cartItems.filter(item => item !== null);
+
+        res.json({ items: validCartItems });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Lỗi khi lấy giỏ hàng' });
+        console.error(error);
+        res.status(500).json({ message: 'Lỗi khi lấy giỏ hàng' });
     }
-  };    
+};
 
 //Thêm sản phẩm vào giỏ hàng 
 const addToCart = asyncHandler(async (req, res) => {
@@ -108,7 +108,7 @@ const removeFromCart = asyncHandler(async (req, res) => {
         if (item.productId && mongoose.Types.ObjectId.isValid(item.productId)) {
             // So sánh ObjectId trực tiếp mà không dùng toString()
             const productIdFromItem = item.productId;
-            const isMatching = productIdFromItem.equals(new mongoose.Types.ObjectId(productId)); 
+            const isMatching = productIdFromItem.equals(new mongoose.Types.ObjectId(productId));
             console.log('So sánh:', productIdFromItem, 'với', productId, '-> Kết quả:', isMatching);
             return !isMatching; // Loại bỏ item nếu match
         } else {
@@ -128,9 +128,6 @@ const removeFromCart = asyncHandler(async (req, res) => {
     console.log('Giỏ hàng sau khi xóa sản phẩm:', cart.items);
     res.json(cart);
 });
-
-
-
 
 // Cập nhật số lượng sản phẩm
 const updateCart = asyncHandler(async (req, res) => {
