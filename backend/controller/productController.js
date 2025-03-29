@@ -7,7 +7,6 @@ const getProduct = asyncHandler(async (req, res) => {
     res.status(200).json(products);
 })
 
-// Tạo sản phẩm mới
 // Tạo sản phẩm mới hoặc mảng sản phẩm
 const createProduct = asyncHandler(async (req, res) => {
     // Lấy dữ liệu từ body yêu cầu

@@ -138,7 +138,8 @@ const updateCart = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "Giỏ hàng không tồn tại" });
     }
 
-    const item = cart.items.find(item => item.productId.toString() === productId);
+    const item = cart.items.find(item => item.productId && item.productId.toString() === productId);
+
     if (item) {
         item.quantity = quantity;
         await cart.save();
