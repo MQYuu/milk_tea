@@ -3,6 +3,7 @@ const Cart = require('../models/Cart');
 const User = require('../models/user');
 const Product = require('../models/Product');
 const mongoose = require('mongoose');
+const ObjectId = mongoose.Types.ObjectId;
 
 //Lấy giỏ hàng
 const getCart = async (req, res) => {
@@ -16,7 +17,7 @@ const getCart = async (req, res) => {
         const cart = await Cart.findOne({ userId }).populate('items.productId');
 
         if (!cart) {
-            return res.status(404).json({ message: 'Giỏ hàng không tồn tại' });
+            return res.status(404).json({ message: 'Không có giỏ hàng nào!' });
         }
 
         // Debug: Kiểm tra các item trong giỏ hàng
@@ -55,29 +56,36 @@ const getCart = async (req, res) => {
     }
 };
 
-//Thêm sản phẩm vào giỏ hàng 
 const addToCart = asyncHandler(async (req, res) => {
-    const { userId, productId, name, price } = req.body;
+    const { userId, items } = req.body;
+
+    if (!userId || !items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: "Dữ liệu giỏ hàng không hợp lệ!" });
+    }
+
     let cart = await Cart.findOne({ userId });
 
     if (!cart) {
         cart = new Cart({ userId, items: [] });
     }
 
-    // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
-    const existingItem = cart.items.find(item => {
-        // Kiểm tra xem item.productId có hợp lệ không
-        if (item.productId && item.productId.toString() === productId) {
-            return true;  // Tìm thấy sản phẩm trong giỏ hàng
-        }
-        return false;  // Không tìm thấy
-    });
+    items.forEach(({ productId, name, price, quantity, imageUrl }) => {
+        if (!productId || !name || !price || !quantity) return;
 
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.items.push({ productId, name, price, quantity: 1 });
-    }
+        const existingItem = cart.items.find(item => item.productId?.toString() === productId);
+
+        if (existingItem) {
+            existingItem.quantity += quantity;
+        } else {
+            cart.items.push({
+                productId: new ObjectId(productId), // Ép thành ObjectId
+                name,
+                price,
+                quantity,
+                imageUrl
+            });
+        }
+    });
 
     await cart.save();
     res.json(cart);
